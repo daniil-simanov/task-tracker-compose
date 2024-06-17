@@ -1,0 +1,81 @@
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+  kafka-data:
+    driver: local
+  zookeeper-data:
+    driver: local
+
+services:
+  rest-api:
+    image: 'dansim418/task-tracker-rest-api:latest'
+    networks:
+      - app
+    depends_on:
+      - postgres
+      - kafka
+    env_file:
+      - .env
+    ports:
+      - '8080:8080'
+  email-sender:
+    image: 'dansim418/task-tracker-email-sender:latest'
+    networks:
+      - app
+    depends_on:
+      - kafka
+    env_file:
+      - .env
+    ports:
+      - '8081:8081'
+
+  scheduler:
+    image: 'dansim418/task-tracker-scheduler:latest'
+    networks:
+      - app
+    depends_on:
+      - postgres
+      - kafka
+    env_file:
+      - .env
+    ports:
+      - '8082:8082'
+
+  zookeeper:
+    image: 'confluentinc/cp-zookeeper:latest'
+    networks:
+      - app
+    env_file:
+      - .env
+    ports:
+      - '2181:2181'
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+
+  kafka:
+    image: 'confluentinc/cp-kafka:latest'
+    networks:
+      - app
+    depends_on:
+      - zookeeper
+    env_file:
+      - .env
+    ports:
+      - '9092:9092'
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+
+  postgres:
+    image: 'postgres:15.1-alpine'
+    networks:
+      - app
+    env_file:
+      - .env
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
