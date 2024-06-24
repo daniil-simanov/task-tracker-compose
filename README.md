@@ -1,8 +1,6 @@
 # TaskTracker
-___
 Многопользовательский TODO лист.
 ## Использованные технологии
-___
 + Java
 + Maven
 + Spring Boot, Spring Security, Spring Scheduler, Spring Mail, Spring Data JPA
@@ -12,7 +10,6 @@ ___
 + Apache Kafka
 + GitHub Actions
 ## Микросервисы
-___
 + [REST API](https://github.com/yeodi/task-tracker-rest-api)
 + [Email Sender](https://github.com/yeodi/task-tracker-email-sender)
 + [Scheduler](https://github.com/yeodi/task-tracker-scheduler)
@@ -34,10 +31,8 @@ Spring Boot приложение получающее сообщения от д
 ### Scheduler
 Spring Boot приложение задача которого - раз в сутки итерировать всех пользователей, формировать для них отчёты об итогах дня, а также формировать email для отправки. Сформированные сообщения отправляются в Apache Kafka очередь.
 ## CI/CD
-___
 При помощи GitHub Actions была реализована автоматическая сборка docker образов и их публикация на [dockerhub](https://hub.docker.com/) при push или pull request в ветку main.
 ## Инструкция по запуску проекта
-___
 + Установить Docker — https://docs.docker.com/get-docker/
 + Склонировать репозиторий task-tracker-stack
 ```
