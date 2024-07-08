@@ -6,7 +6,7 @@ networks:
 
 services:
   rest-api:
-    image: 'dansim418/task-tracker-rest-api:latest'
+    build: ../task-tracker-rest-api
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
       - HOST=${HOST}
@@ -23,7 +23,7 @@ services:
     ports:
       - '8080:8080'
   email-sender:
-    image: 'dansim418/task-tracker-email-sender:latest'
+    build: ../task-tracker-email-sender
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
     networks:
@@ -36,7 +36,7 @@ services:
       - '8081:8081'
 
   scheduler:
-    image: 'dansim418/task-tracker-scheduler:latest'
+    build: ../task-tracker-scheduler
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
       - HOST=${HOST}
